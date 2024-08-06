@@ -23,9 +23,7 @@ allprojects {
 subprojects {
     java {
         toolchain.languageVersion = JavaLanguageVersion.of(21)
-
         withSourcesJar()
-        withJavadocJar()
     }
 
     tasks.withType<JavaCompile> {
@@ -33,7 +31,6 @@ subprojects {
     }
 
     dependencies {
-        /* General */
         val lombok = "1.18.34"
         compileOnly("org.projectlombok:lombok:$lombok")
         annotationProcessor("org.projectlombok:lombok:$lombok")
