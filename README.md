@@ -1,29 +1,34 @@
 # Dream-Notice
 
-[![Build](https://github.com/DreamPoland/dream-notice/actions/workflows/gradle.yml/badge.svg)](https://github.com/DreamPoland/dream-notice/actions/workflows/gradle.yml)
+[![Build Status](https://github.com/DreamPoland/dream-notice/actions/workflows/gradle.yml/badge.svg)](https://github.com/DreamPoland/dream-notice/actions/workflows/gradle.yml)
 
-Simple notice library with placeholders and mini-messages support.
+A simple and efficient notice library with support for placeholders and mini-messages.
 
-## Platforms
+## Supported Platforms
 
-- Bukkit/Spigot/Paper (need
-  relocation) - [bukkit](https://github.com/DreamPoland/dream-notice/tree/master/bukkit)
-  or [bukkit-adventure](https://github.com/DreamPoland/dream-notice/tree/master/bukkit)
-- Paper (native-support
-  1.18.2+) - [paper-adventure](https://github.com/DreamPoland/dream-notice/tree/master/paper-adventure)
-- Bungee/Waterfall (need
-  relocation) - [bungee](https://github.com/DreamPoland/dream-notice/tree/master/bukkit)
-  or [bungee-adventure](https://github.com/DreamPoland/dream-notice/tree/master/bukkit)
+- **Bukkit/Spigot/Paper** (requires relocation)
+  - [Bukkit](https://github.com/DreamPoland/dream-notice/tree/master/bukkit)
+  - [Bukkit-Adventure](https://github.com/DreamPoland/dream-notice/tree/master/bukkit)
+- **Paper** (native support for version 1.18.2+)
+  - [Paper-Adventure](https://github.com/DreamPoland/dream-notice/tree/master/paper-adventure)
+- **Bungee/Waterfall** (requires relocation)
+  - [Bungee](https://github.com/DreamPoland/dream-notice/tree/master/bungee)
+  - [Bungee-Adventure](https://github.com/DreamPoland/dream-notice/tree/master/bungee)
 
-### Warning
+### Important Notice
 
-Bukkit-Adventure and Bungee-Adventure require these methods: (on-enable)
+**Bukkit-Adventure** and **Bungee-Adventure** require these methods to be called during the on-enable phase:
 
-`BukkitNoticeProvider.create(this)` or `BungeeNoticeProvider.create(this)`
+```java
+BukkitNoticeProvider.create(this);
+BungeeNoticeProvider.create(this);
+```
 
-## Maven/Gradle
+## Maven/Gradle Installation
 
 ### Maven
+
+Add the following repository to your `pom.xml`:
 
 ```xml
 <repository>
@@ -31,6 +36,8 @@ Bukkit-Adventure and Bungee-Adventure require these methods: (on-enable)
   <url>https://repo.dreamcode.cc/releases</url>
 </repository>
 ```
+
+Add the dependency:
 
 ```xml
 <dependency>
@@ -42,44 +49,52 @@ Bukkit-Adventure and Bungee-Adventure require these methods: (on-enable)
 
 ### Gradle
 
-```groovy
-maven { url "https://repo.dreamcode.cc/releases" }
-```
+Add the following to your `build.gradle`:
 
 ```groovy
-implementation "cc.dreamcode.notice:{platform}:1.5.7"
+repositories {
+    maven { url "https://repo.dreamcode.cc/releases" }
+}
+
+dependencies {
+    implementation "cc.dreamcode.notice:{platform}:1.5.7"
+}
 ```
 
-## Example standard
+## Usage Examples
+
+### Standard Example
 
 ```java
 BukkitNotice.chat("&7Simple test {example}.")
-    .with("example","player1")
+    .with("example", "player1")
     .hoverEvent(HoverEvent.showText(AdventureLegacy.deserialize("Text.")))
     .clickEvent(ClickEvent.openUrl("https://dreamcode.cc"))
     .send(player);
 ```
 
-## Example i18n
+### i18n Example
 
-Player is used in PaperNoticeService#getMessage as a local provider for i18n service.
+The player is used in `PaperNoticeService#getMessage` as a local provider for i18n service. The `/translations/` directory serves as an example for i18n files. Refer to `PaperNoticeSerializer` for a detailed format explanation.
 
 ```java
-  PaperNoticeService noticeService = null;
-  noticeService.registerResources(getFile(), getDataFolder(), Set.of("translations"));
-  noticeService.getMessage(player, "exampleNotice").send(player);
+PaperNoticeService noticeService = null; // Initialize the service instance appropriately
+noticeService.registerResources(getFile(), getDataFolder(), Set.of("translations"));
+noticeService.getMessage(player, "exampleNotice").send(player);
 ```
 
-## Get JarFile on Velocity
+### Retrieve Jar File on Velocity
 
 ```java
-  public static File getJarFile(Object plugin) {
+public static File getJarFile(Object plugin) {
   try {
     return new File(
-            plugin.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+            plugin.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()
+    );
   } catch (Exception exception) {
     throw new IllegalStateException(
-            "Could not retrieve jar file, because of unexpected exception.", exception);
+            "Could not retrieve jar file due to an unexpected exception.", exception
+    );
   }
 }
 ```
