@@ -1,7 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
-    id("com.github.johnrengelman.shadow") version "8.1.0" // or your desired Shadow version
+    id("com.github.johnrengelman.shadow") version "8.1.1" // or your desired Shadow version
 }
 
 repositories {
