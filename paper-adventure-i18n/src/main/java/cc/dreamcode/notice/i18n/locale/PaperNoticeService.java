@@ -11,16 +11,17 @@ import org.bukkit.command.CommandSender;
 
 public class PaperNoticeService extends NoticeService<CommandSender, PaperNotice> {
 
-  public PaperNoticeService(
-      Supplier<Configurer> configurer,
-      Locale fallbackLocale,
-      LocaleProvider<CommandSender> localeProvider) {
+  public PaperNoticeService(Supplier<Configurer> configurer, Locale fallbackLocale) {
     super(
         PaperNotice.class,
         configurer,
         fallbackLocale,
-        localeProvider,
+        new PaperLocaleProvider(fallbackLocale),
         registry -> registry.register(new PaperNoticeSerializer()));
+  }
+
+  public static PaperNoticeService create(Supplier<Configurer> configurer, Locale fallbackLocale) {
+    return new PaperNoticeService(configurer, fallbackLocale);
   }
 
   @Override
