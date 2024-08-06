@@ -54,7 +54,7 @@ public class AdventureNotice<R extends Notice<R>> extends NoticeImpl<R> {
 
   public TextReplacementConfig getPlaceholderConfig() {
 
-    if (!this.getPlaceholderContext().isPresent()) {
+    if (this.getPlaceholderContext().isEmpty()) {
       return null;
     }
 

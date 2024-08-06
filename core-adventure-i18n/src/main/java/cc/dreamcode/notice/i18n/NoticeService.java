@@ -25,7 +25,7 @@ public abstract class NoticeService<V extends Audience, N extends Notice<N>> {
 
   private final Class<N> type;
   private final Locale fallbackLocale;
-  private final LocaleProvider<V> localeProvider;
+  protected final LocaleProvider<V> localeProvider;
   private final OkaeriSerdesPack serdesPack;
   private final Map<Locale, Map<String, N>> messagesByLocales;
   private final Supplier<Configurer> configurer;
@@ -77,6 +77,11 @@ public abstract class NoticeService<V extends Audience, N extends Notice<N>> {
                 it.load();
               }
             }));
+  }
+
+  public void reloadResources(File jarFile, File dataPath, Set<String> paths) {
+    messagesByLocales.clear();
+    registerResources(jarFile, dataPath, paths);
   }
 
   public N getNotice(Locale locale, String key) {
