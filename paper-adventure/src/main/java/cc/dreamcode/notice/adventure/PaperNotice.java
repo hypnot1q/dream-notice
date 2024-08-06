@@ -16,11 +16,10 @@ public class PaperNotice extends AdventureNotice<PaperNotice> implements PaperSe
   public PaperNotice(@NonNull NoticeType noticeType, @NonNull String... noticeText) {
     super(noticeType, noticeText);
 
-    //    if (!PaperVerifier.verifyVersion()) {
-    //      throw new RuntimeException(
-    //          "AdventurePaper need Paper software (or his fork) and Mini-Message implementation.
-    // (1.18.2+)");
-    //    }
+    if (!PaperVerifier.verifyVersion()) {
+      throw new RuntimeException(
+          "AdventurePaper need Paper software (or his fork) and Mini-Message implementation. (1.18.2+)");
+    }
   }
 
   public static PaperNotice of(@NonNull NoticeType noticeType, @NonNull String... noticeText) {

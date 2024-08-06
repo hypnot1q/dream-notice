@@ -50,7 +50,9 @@ public abstract class NoticeService<V extends Audience, N extends Notice<N>> {
     Map<String, Object> valuesByKeys = noticeSource.asMap(configurer.get(), true);
     Map<String, N> messagesByKeys = new LinkedHashMap<>();
     for (Entry<String, Object> entry : valuesByKeys.entrySet()) {
-      messagesByKeys.put(entry.getKey(), noticeSource.get(entry.getKey(), type));
+      N notice = noticeSource.get(entry.getKey(), type);
+      notice.setLocale(locale);
+      messagesByKeys.put(entry.getKey(), notice);
     }
 
     messagesByLocales.computeIfAbsent(locale, key -> new LinkedHashMap<>()).putAll(messagesByKeys);
