@@ -6,12 +6,18 @@ import eu.okaeri.placeholders.message.CompiledMessage;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import lombok.Data;
 import lombok.NonNull;
 
+@Data
 public abstract class Notice<R extends Notice<?>> {
 
   private Locale locale = Locale.forLanguageTag("pl");
   private PlaceholderContext placeholderContext = null;
+
+  public static String lineSeparator() {
+    return "%NEWLINE%";
+  }
 
   public abstract String getRaw();
 

@@ -1,0 +1,43 @@
+package cc.dreamcode.notice.paper;
+
+import cc.dreamcode.notice.NoticeType;
+import cc.dreamcode.notice.i18n.NoticeService;
+import eu.okaeri.configs.configurer.Configurer;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.function.Supplier;
+import org.bukkit.command.CommandSender;
+
+public class PaperNoticeService extends NoticeService<CommandSender, PaperNotice> {
+
+  public PaperNoticeService(Supplier<Configurer> configurer, Locale fallbackLocale) {
+    super(
+        PaperNotice.class,
+        configurer,
+        fallbackLocale,
+        new PaperLocaleProvider(fallbackLocale),
+        registry -> registry.register(new PaperNoticeSerializer()));
+  }
+
+  public static PaperNoticeService create(Supplier<Configurer> configurer, Locale fallbackLocale) {
+    return new PaperNoticeService(configurer, fallbackLocale);
+  }
+
+  @Override
+  public PaperNotice getNoticeToPersist(final NoticeType noticeType, final String message) {
+    return PaperNotice.of(noticeType, message);
+  }
+
+  public void sendAll(final Collection<CommandSender> receivers, final String message) {
+    Map<Locale, PaperNotice> noticesByLocales = new HashMap<>();
+    receivers.forEach(
+        receiver -> {
+          PaperNotice notice =
+              noticesByLocales.computeIfAbsent(
+                  localeProvider.getLocale(receiver), l -> getNotice(l, message));
+          notice.send(receiver);
+        });
+  }
+}

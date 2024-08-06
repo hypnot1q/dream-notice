@@ -6,15 +6,9 @@ repositories {
 dependencies {
     api(project(":minecraft"))
 
-    // -- bunege api -- (base)
-    compileOnly("net.md-5:bungeecord-api:1.20-R0.1-SNAPSHOT")
+    // -- paper api -- (core)
+    compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
 
     // -- okaeri-configs --
     compileOnly("eu.okaeri:okaeri-configs-core:5.0.2")
-
-    // -- kyori --
-    implementation("net.kyori:adventure-platform-bungeecord:4.3.3")
-
-    // -- dream-utilities --
-    implementation("cc.dreamcode:utilities-bungee:1.4.5")
 }

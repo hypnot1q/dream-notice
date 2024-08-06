@@ -4,14 +4,15 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":minecraft"))
+    api(project(":minecraft"))
 
     // -- spigot api -- (base)
-    compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
+
+    // -- okaeri-configs --
+    compileOnly("eu.okaeri:okaeri-configs-core:5.0.2")
 
     // -- dream-utilities --
-    implementation("cc.dreamcode:utilities:1.4.5")
     implementation("cc.dreamcode:utilities-bukkit:1.4.5")
 
     // -- x-series --
