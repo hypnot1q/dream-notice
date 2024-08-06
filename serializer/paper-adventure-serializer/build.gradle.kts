@@ -7,6 +7,6 @@ dependencies {
     // -- okaeri-configs --
     compileOnly("eu.okaeri:okaeri-configs-core:5.0.2")
 
+    // -- adventure --
     compileOnly("net.kyori:adventure-text-minimessage:4.17.0")
-
 }
