@@ -53,19 +53,11 @@ implementation "cc.dreamcode.notice:{platform}:1.5.7"
 ## Example standard
 
 ```java
-BukkitNotice.chat("&7Simple test {argument}.")
-    .
-
-with("argument","player1")
-    .
-
-hoverEvent(HoverEvent.showText(AdventureLegacy.deserialize("Text.")))
-        .
-
-clickEvent(ClickEvent.openUrl("https://dreamcode.cc"))
-        .
-
-send(player);
+BukkitNotice.chat("&7Simple test {example}.")
+    .with("example","player1")
+    .hoverEvent(HoverEvent.showText(AdventureLegacy.deserialize("Text.")))
+    .clickEvent(ClickEvent.openUrl("https://dreamcode.cc"))
+    .send(player);
 ```
 
 ## Example i18n
@@ -73,18 +65,9 @@ send(player);
 Player is used in PaperNoticeService#getMessage as a local provider for i18n service.
 
 ```java
-PaperNoticeService noticeService = null;
-noticeService.
-
-registerResources(getFile(),getDataFolder(),Set.
-
-of("translations"));
-        noticeService.
-
-getMessage(player, "exampleNotice")
-    .
-
-send(player);
+  PaperNoticeService noticeService = null;
+  noticeService.registerResources(getFile(), getDataFolder(), Set.of("translations"));
+  noticeService.getMessage(player, "exampleNotice").send(player);
 ```
 
 ## Get JarFile on Velocity
