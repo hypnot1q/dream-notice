@@ -26,7 +26,6 @@ Bukkit-Adventure and Bungee-Adventure require these methods: (on-enable)
 ### Maven
 
 ```xml
-
 <repository>
   <id>dreamcode-repository-releases</id>
   <url>https://repo.dreamcode.cc/releases</url>
@@ -34,7 +33,6 @@ Bukkit-Adventure and Bungee-Adventure require these methods: (on-enable)
 ```
 
 ```xml
-
 <dependency>
   <groupId>cc.dreamcode.notice</groupId>
   <artifactId>{platform}</artifactId>
@@ -52,21 +50,53 @@ maven { url "https://repo.dreamcode.cc/releases" }
 implementation "cc.dreamcode.notice:{platform}:1.5.7"
 ```
 
-## Example
+## Example standard
 
 ```java
 BukkitNotice.chat("&7Simple test {argument}.")
-        .
-
-with("argument","player1")
-        .
-
-hoverEvent(HoverEvent.showText(AdventureLegacy.deserialize("Text.")))
     .
 
+with("argument","player1")
+    .
+
+hoverEvent(HoverEvent.showText(AdventureLegacy.deserialize("Text.")))
+        .
+
 clickEvent(ClickEvent.openUrl("https://dreamcode.cc"))
+        .
+
+send(player);
+```
+
+## Example i18n
+
+Player is used in PaperNoticeService#getMessage as a local provider for i18n service.
+
+```java
+PaperNoticeService noticeService = null;
+noticeService.
+
+registerResources(getFile(),getDataFolder(),Set.
+
+of("translations"));
+        noticeService.
+
+getMessage(player, "exampleNotice")
     .
 
 send(player);
 ```
 
+## Get JarFile on Velocity
+
+```java
+  public static File getJarFile(Object plugin) {
+  try {
+    return new File(
+            plugin.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+  } catch (Exception exception) {
+    throw new IllegalStateException(
+            "Could not retrieve jar file, because of unexpected exception.", exception);
+  }
+}
+```
