@@ -1,9 +1,3 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
-plugins {
-    id("com.github.johnrengelman.shadow") version "8.1.0" // or your desired Shadow version
-}
-
 repositories {
     maven("https://repo.codemc.io/repository/nms")
     maven("https://oss.sonatype.org/content/repositories/snapshots")
@@ -28,10 +22,4 @@ dependencies {
 
     // -- dream-utilities --
     implementation("cc.dreamcode:utilities:1.4.5")
-}
-
-tasks.withType<ShadowJar> {
-    manifest {
-        attributes["Main-Class"] = "cc.dreamcode.notice.i18n.locale.Main"
-    }
 }
