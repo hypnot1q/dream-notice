@@ -1,5 +1,6 @@
-package cc.dreamcode.notice.bukkit;
+package cc.dreamcode.notice.velocity;
 
+import cc.dreamcode.notice.NoticeImpl;
 import cc.dreamcode.notice.NoticeType;
 import eu.okaeri.configs.schema.GenericsDeclaration;
 import eu.okaeri.configs.serdes.DeserializationData;
@@ -7,16 +8,15 @@ import eu.okaeri.configs.serdes.ObjectSerializer;
 import eu.okaeri.configs.serdes.SerializationData;
 import lombok.NonNull;
 
-public class BukkitNoticeSerializer implements ObjectSerializer<BukkitNotice> {
-
+public class VelocityNoticeSerializer implements ObjectSerializer<VelocityNotice> {
   @Override
-  public boolean supports(@NonNull Class<? super BukkitNotice> type) {
-    return BukkitNotice.class.isAssignableFrom(type);
+  public boolean supports(@NonNull Class<? super VelocityNotice> type) {
+    return NoticeImpl.class.isAssignableFrom(type);
   }
 
   @Override
   public void serialize(
-      @NonNull BukkitNotice object,
+      @NonNull VelocityNotice object,
       @NonNull SerializationData data,
       @NonNull GenericsDeclaration generics) {
     data.add("type", object.getNoticeType(), NoticeType.class);
@@ -36,11 +36,11 @@ public class BukkitNoticeSerializer implements ObjectSerializer<BukkitNotice> {
   }
 
   @Override
-  public BukkitNotice deserialize(
+  public VelocityNotice deserialize(
       @NonNull DeserializationData data, @NonNull GenericsDeclaration generics) {
 
-    BukkitNotice minecraftNotice =
-        new BukkitNotice(data.get("type", NoticeType.class), data.get("text", String.class));
+    VelocityNotice minecraftNotice =
+        new VelocityNotice(data.get("type", NoticeType.class), data.get("text", String.class));
 
     if (data.containsKey("title-fade-in")) {
       minecraftNotice.setTitleFadeIn(data.get("title-fade-in", Integer.class));

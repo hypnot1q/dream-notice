@@ -1,80 +1,81 @@
-package cc.dreamcode.notice.bukkit;
+package cc.dreamcode.notice.velocity;
 
 import cc.dreamcode.notice.Notice;
 import cc.dreamcode.notice.NoticeSender;
 import cc.dreamcode.notice.NoticeType;
 import cc.dreamcode.notice.minecraft.AdventureLegacy;
 import cc.dreamcode.notice.minecraft.AdventureNotice;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.proxy.Player;
 import java.time.Duration;
 import java.util.Map;
 import lombok.NonNull;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-public class BukkitNotice extends AdventureNotice<BukkitNotice>
-    implements NoticeSender<CommandSender> {
+public class VelocityNotice extends AdventureNotice<VelocityNotice>
+    implements NoticeSender<CommandSource> {
 
-  public BukkitNotice(@NonNull NoticeType noticeType, @NonNull String... noticeText) {
+  public VelocityNotice(@NonNull NoticeType noticeType, @NonNull String... noticeText) {
     super(noticeType, noticeText);
   }
 
-  public static BukkitNotice of(@NonNull NoticeType noticeType, @NonNull String... noticeText) {
-    return new BukkitNotice(noticeType, noticeText);
+  public static VelocityNotice of(@NonNull NoticeType noticeType, @NonNull String... noticeText) {
+    return new VelocityNotice(noticeType, noticeText);
   }
 
-  public static BukkitNotice chat(@NonNull String... noticeText) {
-    return new BukkitNotice(NoticeType.CHAT, noticeText);
+  public static VelocityNotice chat(@NonNull String... noticeText) {
+    return new VelocityNotice(NoticeType.CHAT, noticeText);
   }
 
-  public static BukkitNotice actionBar(@NonNull String... noticeText) {
-    return new BukkitNotice(NoticeType.ACTION_BAR, noticeText);
+  public static VelocityNotice actionBar(@NonNull String... noticeText) {
+    return new VelocityNotice(NoticeType.ACTION_BAR, noticeText);
   }
 
-  public static BukkitNotice title(@NonNull String... noticeText) {
-    return new BukkitNotice(NoticeType.TITLE, noticeText);
+  public static VelocityNotice title(@NonNull String... noticeText) {
+    return new VelocityNotice(NoticeType.TITLE, noticeText);
   }
 
-  public static BukkitNotice subtitle(@NonNull String... noticeText) {
-    return new BukkitNotice(NoticeType.SUBTITLE, noticeText);
+  public static VelocityNotice subtitle(@NonNull String... noticeText) {
+    return new VelocityNotice(NoticeType.TITLE, noticeText);
   }
 
-  public static BukkitNotice titleSubtitle(@NonNull String... noticeText) {
-    return new BukkitNotice(NoticeType.TITLE_SUBTITLE, noticeText);
-  }
-
-  @Override
-  public void send(@NonNull CommandSender target) {
-    this.wrapAndSend(target);
-    this.clearRender();
+  public static VelocityNotice titleSubtitle(@NonNull String... noticeText) {
+    return new VelocityNotice(NoticeType.TITLE_SUBTITLE, noticeText);
   }
 
   @Override
-  public void send(@NonNull CommandSender target, @NonNull Map<String, Object> mapReplacer) {
-    this.with(mapReplacer).wrapAndSend(target);
-    this.clearRender();
+  public void send(@NonNull CommandSource target) {
+    this.sendFormatted(target);
   }
 
-  private void wrapAndSend(@NonNull CommandSender target) {
-    final BukkitAudiences bukkitAudiences = BukkitNoticeProvider.getInstance().getBukkitAudiences();
-    this.sendFormatted(target, bukkitAudiences.sender(target));
+  @Override
+  public void send(@NonNull CommandSource target, @NonNull Map<String, Object> mapReplacer) {
+    this.with(mapReplacer).send(target);
   }
 
-  private void sendFormatted(@NonNull CommandSender sender, @NonNull Audience target) {
+  private void sendFormatted(@NonNull CommandSource target) {
 
-    if (!(sender instanceof Player)) {
+    if (!(target instanceof Player)) {
       this.toSplitComponents().forEach(target::sendMessage);
+
+      this.clearRender();
       return;
     }
 
     final NoticeType noticeType = (NoticeType) this.getNoticeType();
     switch (noticeType) {
       case DO_NOT_SEND -> this.clearRender();
-      case CHAT -> this.toSplitComponents().forEach(target::sendMessage);
-      case ACTION_BAR -> target.sendActionBar(this.toJoiningComponent());
+      case CHAT -> {
+        this.toSplitComponents().forEach(target::sendMessage);
+
+        this.clearRender();
+      }
+      case ACTION_BAR -> {
+        target.sendActionBar(this.toJoiningComponent());
+
+        this.clearRender();
+      }
       case TITLE -> {
         final Component component = this.toJoiningComponent();
         final Component emptyComponent = AdventureLegacy.deserialize(" ");
@@ -89,6 +90,8 @@ public class BukkitNotice extends AdventureNotice<BukkitNotice>
                     Duration.ofMillis(this.getTitleFadeOut() * 50L)));
 
         target.showTitle(titleBuilder);
+
+        this.clearRender();
       }
       case SUBTITLE -> {
         final Component component = AdventureLegacy.deserialize(" ");
@@ -104,6 +107,8 @@ public class BukkitNotice extends AdventureNotice<BukkitNotice>
                     Duration.ofMillis(this.getTitleFadeOut() * 50L)));
 
         target.showTitle(titleBuilder);
+
+        this.clearRender();
       }
       case TITLE_SUBTITLE -> {
         String[] split = this.getRender().split(Notice.lineSeparator());
@@ -127,6 +132,8 @@ public class BukkitNotice extends AdventureNotice<BukkitNotice>
                     Duration.ofMillis(this.getTitleFadeOut() * 50L)));
 
         target.showTitle(titleBuilder);
+
+        this.clearRender();
       }
       default -> {
         this.clearRender();

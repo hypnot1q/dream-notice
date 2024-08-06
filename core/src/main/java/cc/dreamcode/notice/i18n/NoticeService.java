@@ -26,12 +26,12 @@ import net.kyori.adventure.audience.Audience;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class NoticeService<V extends Audience, N extends Notice<N>> {
 
-  protected final LocaleProvider<V> localeProvider;
   private final Class<N> type;
+  private final Supplier<Configurer> configurer;
   private final Locale fallbackLocale;
+  protected final LocaleProvider<V> localeProvider;
   private final OkaeriSerdesPack serdesPack;
   private final Map<Locale, Map<String, N>> messagesByLocales = new ConcurrentHashMap<>();
-  private final Supplier<Configurer> configurer;
 
   public abstract N getNoticeToPersist(NoticeType noticeType, String message);
 

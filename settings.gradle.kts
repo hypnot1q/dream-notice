@@ -7,6 +7,5 @@ include(":core")
 include(":minecraft")
 
 // -- platforms --
-include(":bukkit")
-include(":bungee")
 include(":paper")
+include(":velocity")

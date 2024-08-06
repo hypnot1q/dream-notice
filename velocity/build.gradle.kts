@@ -5,8 +5,9 @@ repositories {
 dependencies {
     api(project(":minecraft"))
 
-    // -- paper api -- (core)
-    compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
+    // -- velocity api -- (core)
+    compileOnly("com.velocitypowered:velocity-api:3.3.0-SNAPSHOT")
+    annotationProcessor("com.velocitypowered:velocity-api:3.3.0-SNAPSHOT")
 
     // -- okaeri-configs --
     compileOnly("eu.okaeri:okaeri-configs-core:5.0.2")
