@@ -9,5 +9,5 @@ dependencies {
     compileOnly("eu.okaeri:okaeri-configs-core:5.0.2")
 
     // -- bungeecord-chat --
-    compileOnly("net.md-5:bungeecord-chat:1.20-R0.1-SNAPSHOT")
+    compileOnly("net.md-5:bungeecord-chat:1.20-R0.2")
 }
