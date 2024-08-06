@@ -1,6 +1,7 @@
 plugins {
     `java-library`
     `maven-publish`
+    id("io.github.goooler.shadow") version "8.1.7"
 }
 
 allprojects {
@@ -9,6 +10,7 @@ allprojects {
 
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
+    apply(plugin = "io.github.goooler.shadow")
 
     repositories {
         /* Libraries */
@@ -20,8 +22,7 @@ allprojects {
 
 subprojects {
     java {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        toolchain.languageVersion = JavaLanguageVersion.of(21)
 
         withSourcesJar()
         withJavadocJar()
