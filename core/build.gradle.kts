@@ -12,7 +12,7 @@ dependencies {
 
     // -- kyori --
     api("net.kyori:adventure-text-minimessage:4.17.0")
-    api("net.kyori:adventure-platform-bukkit:4.3.3")
+    api("net.kyori:adventure-platform-bukkit:4.3.4")
     api("net.kyori:adventure-text-serializer-legacy:4.17.0")
 
     // -- dream-utilities --
